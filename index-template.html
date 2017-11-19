@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.19/webcomponents-hi-ce.js"></script>
+    <title>Template</title>
+</head>
+<body>
+    <custom-element></custom-element>
+
+     <template>
+       <div>
+         <h1>Тег - Template</h1>
+            <p>Имя <span id="template-name"></span>.</p>
+            <p>Счетчик <span id="template-count"></span>.</p>
+       </div>
+    </template>
+
+    <button id="add-template">Добавить шаблон</button>
+   
+    <div id="output-template"></div>
+    <script>
+    (function () {
+
+        const customElementProto = Object.create(HTMLElement.prototype);
+        customElementProto.createdCallback = function () {
+            this.innerHTML = "<h3>This is Custom-Element</h3>";
+        };
+        const customElementComponent = document.registerElement("custom-element", {
+            prototype: customElementProto
+        });
+
+       let templateCounter = 0;
+
+       window.addEventListener("load", function () {
+          document.querySelector("#add-template").addEventListener("click", function () {
+            let template = document.querySelector("template");
+            let templateClone = document.importNode(template.content, true);
+            let outputTemplate = document.querySelector("#output-template");
+            
+            templateClone.querySelector("#template-name").innerHTML = "Шаблон";
+            templateClone.querySelector("#template-count").textContent = ++templateCounter;
+            
+            outputTemplate.appendChild(templateClone);
+                })
+
+            })
+        })();
+    </script>  
+</body>
+</html>
